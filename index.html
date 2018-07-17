@@ -57,6 +57,55 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="main.js"></script>
+    <script>
+
+    //for simply getting the success of a request
+    function performGetRequest1() { //called onclick of the first button
+
+      //setting the div with api call info to empty
+      var resultElement = document.getElementById('getResult1');
+      resultElement.innerHTML = '';
+
+      //using GET with Axios with http://jsonplaceholder.typicode.com/todos as the endpoint
+      axios.get('http://jsonplaceholder.typicode.com/todos')
+        .then(function (response) { //if successful, it will execute .then
+          //response is a parameter that it automatically passes back
+          resultElement.innerHTML = generateSuccessHTMLOutput(response);
+          //generateSuccessHTMLOutput is a function defined elsewhere that structures the response to look pretty
+          //sets the div's innerHTML to the response if successful
+        })
+        .catch(function (error) { //if unsuccessful, it will execute .catch
+          //error is a passed back parameter
+          resultElement.innerHTML = generateErrorHTMLOutput(error);
+        });
+    }
+
+    function generateSuccessHTMLOutput(response) {
+      return  '<h4>Result</h4>' +
+              '<h5>Status:</h5> ' +
+              '<pre>' + response.status + ' ' + response.statusText + '</pre>' +
+              '<h5>Headers:</h5>' +
+              '<pre>' + JSON.stringify(response.headers, null, '\t') + '</pre>' + // \t is used to create a line break
+              '<h5>Data:</h5>' +
+              '<pre>' + JSON.stringify(response.data, null, '\t') + '</pre>';
+    }
+    function generateErrorHTMLOutput(error) {
+      return  '<h4>Result</h4>' +
+              '<h5>Message:</h5> ' +
+              '<pre>' + error.message + '</pre>' +
+              '<h5>Status:</h5> ' +
+              '<pre>' + error.response.status + ' ' + error.response.statusText + '</pre>' +
+              '<h5>Headers:</h5>' +
+              '<pre>' + JSON.stringify(error.response.headers, null, '\t') + '</pre>' +
+              '<h5>Data:</h5>' +
+              '<pre>' + JSON.stringify(error.response.data, null, '\t') + '</pre>';
+    }
+
+
+
+
+
+
+    </script>
   </body>
 </html>
