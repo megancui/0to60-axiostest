@@ -44,6 +44,7 @@
             <input type="text" class="form-control" id="todoTitle" placeholder="Todo Title ...">
           </div>
           <button type="submit" class="btn btn-primary">Send</button>
+          /*this button does NOT have on onclick submission; there's an event listener in the js*/
         </form><br/>
         <button class="btn btn-warning" onclick="clearOutput()">Clear</button>
         <div class="panel-body" id="postResult"></div>
@@ -127,6 +128,32 @@
       resultElement.innerHTML = generateErrorHTMLOutput(error);
     });
   }
+
+
+
+//post request this time
+  document.getElementById('todoInputForm').addEventListener('submit', performPostRequest);
+function performPostRequest(e) {
+  var resultElement = document.getElementById('postResult');
+  resultElement.innerHTML = '';
+
+  //getting value from input box
+  var todoTitle = document.getElementById('todoTitle').value;
+
+  axios.post('http://jsonplaceholder.typicode.com/todos', {
+    userId: '1',
+    title: todoTitle,
+    completed: false
+  })
+  .then(function (response) {
+    resultElement.innerHTML = generateSuccessHTMLOutput(response);
+  })
+  .catch(function (error) {
+    resultElement.innerHTML = generateErrorHTMLOutput(error);
+  });
+
+  e.preventDefault();
+}
 
 
   </script>
